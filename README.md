@@ -35,6 +35,19 @@ The library requires [amazonica](https://github.com/mcohen01/amazonica) to be av
 (amazonica-aws-sso/reset!)
 ```
 
+### Kinesis
+
+Amazonica's kinesis worker (`amazonica.aws.kinesis/worker`) does not currently use it's normal credentials resolution (<https://github.com/mcohen01/amazonica/issues/471#issue-1678388193>).
+
+As such, you need to explicitly pass in a credentials provider for it to work with SSO profiles:
+
+```clojure
+(require '[signal.amazonica-aws-sso :as amazonica-aws-sso]
+         '[amazonica.aws.kinesis :as kinesis])
+
+(kinesis/worker :credentials (amazonica-aws-sso/default-credentials-provider))
+```
+
 ## Testing
 
 This is a pain to test on CI as it requires an AWS Profile to be set up using SSO, and no other providers in the AWS credentials provider chain to be configured. As such, it's recommended to just test locally.
