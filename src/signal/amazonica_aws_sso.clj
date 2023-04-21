@@ -15,6 +15,13 @@
   []
   (amazonica/defcredential {}))
 
+(defn default-credentials-provider
+  "Returns a new instance of com.signalai.awsSSOCompatibleDefaultAWSCredentialsProviderChain.
+   
+   This can be used as a drop in replacement for com.amazonaws.authDefaultAWSCredentialsProviderChain."
+  []
+  (SSOCompatibleDefaultAWSCredentialsProviderChain/getInstance))
+
 (defmacro with-sso-credential
   "Per invocation binding of credentials for ad-hoc
   service calls using alternate user/password combos

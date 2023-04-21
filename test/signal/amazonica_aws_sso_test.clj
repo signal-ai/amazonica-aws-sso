@@ -3,7 +3,7 @@
             [amazonica.core :as amazonica]
             [clojure.test :refer [deftest is use-fixtures]]
             [signal.amazonica-aws-sso :as amazonica-aws-sso])
-  (:import [com.signalai.aws SSOCompatibleDefaultAWSCredentialsProviderChain SSOCompatibleProfileCredentialsProvider]))
+  (:import [com.signalai.aws SSOCompatibleProfileCredentialsProvider]))
 
 (defn after-each [f]
   (f)
@@ -28,7 +28,7 @@
     (is (some? (:sessionToken credentials)))))
 
 (deftest SSOCompatibleDefaultAWSCredentialsProviderChain-returns-credentials-from-profile
-  (let [credentials (bean (.getCredentials (SSOCompatibleDefaultAWSCredentialsProviderChain/getInstance)))]
+  (let [credentials (bean (.getCredentials (amazonica-aws-sso/default-credentials-provider)))]
     (is (some? (:AWSAccessKeyId credentials)))
     (is (some? (:AWSSecretKey credentials)))
     (is (some? (:sessionToken credentials)))))
