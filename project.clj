@@ -1,4 +1,4 @@
-(defproject com.signal-ai/amazonica-aws-sso "1.0.1"
+(defproject com.signal-ai/amazonica-aws-sso "1.0.2-SNAPSHOT"
   :description "Amazonica AWS SSO"
   :url "http://github.com/signal-ai/amazonica-aws-sso"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
