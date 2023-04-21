@@ -1,12 +1,21 @@
 # Amazonica AWS SSO
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/signal-ai/amazonica-aws-sso/tree/main.svg?style=shield&circle-token=ffb6546d8fa32712fcd2b69042dbe409ef81decb)](https://dl.circleci.com/status-badge/redirect/gh/signal-ai/amazonica-aws-sso/tree/main)
+[![Clojars Project](https://img.shields.io/clojars/v/com.signal-ai/amazonica-aws-sso.svg)](https://clojars.org/com.signal-ai/amazonica-aws-sso)
+
 A Clojure library which adds support for AWS SSO to [amazonica](https://github.com/mcohen01/amazonica).
 
-This is done by shimming `software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider` from the AWS SDK V2 to `com.amazonaws.auth.AWSCredentialsProvider`.
+This is done by shimming [`software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider`](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/auth/credentials/ProfileCredentialsProvider.html) from the [AWS SDK V2](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/home.html) to [`com.amazonaws.auth.AWSCredentialsProvider`](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/AWSCredentialsProvider.html).
+
+This approach was taken from this github issue response: <https://github.com/aws/aws-sdk-java/issues/803#issuecomment-593530484>.
 
 ## Usage
 
-[![Clojars Project](https://img.shields.io/clojars/v/com.signal-ai/amazonica-aws-sso.svg)](https://clojars.org/com.signal-ai/amazonica-aws-sso)
+Add the libary to your project from [clojars](https://clojars.org/com.signal-ai/amazonica-aws-sso):
+
+```clj
+[com.signal-ai/amazonica-aws-sso "<version>"]
+```
 
 The library requires [amazonica](https://github.com/mcohen01/amazonica) to be available to your project.
 
