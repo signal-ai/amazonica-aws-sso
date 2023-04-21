@@ -14,7 +14,9 @@
                  [software.amazon.awssdk/auth "2.20.50"]
                  [software.amazon.awssdk/sso "2.20.50"]]
   :java-source-paths ["java"]
-  :profiles {:dev {:dependencies [[amazonica "0.3.163"]
+  :profiles {:dev {:resource-paths ["dev-resources"]
+                   :dependencies [[amazonica "0.3.163"]
+                                  [com.amazonaws/aws-java-sdk-s3 "1.12.453"]
                                   [com.amazonaws/aws-java-sdk-sts "1.12.453"]
 
                                   [ch.qos.logback/logback-classic "1.2.3"]
@@ -35,8 +37,7 @@
                              org.slf4j/slf4j-jcl
                              org.slf4j/slf4j-nop
                              org.slf4j/slf4j-log4j12
-                             org.slf4j/slf4j-log4j13]}
-             :resource-paths ["dev-resources"]}
+                             org.slf4j/slf4j-log4j13]}}
 
   :deploy-repositories [["releases" {:url "https://clojars.org/repo"
                                      :username :env/clojars_username

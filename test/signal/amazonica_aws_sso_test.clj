@@ -1,5 +1,6 @@
 (ns signal.amazonica-aws-sso-test
-  (:require [amazonica.aws.securitytoken :as sts]
+  (:require [amazonica.aws.s3 :as s3]
+            [amazonica.aws.securitytoken :as sts]
             [amazonica.core :as amazonica]
             [clojure.test :refer [deftest is use-fixtures]]
             [signal.amazonica-aws-sso :as amazonica-aws-sso])
@@ -36,6 +37,25 @@
 (deftest with-sso-credential-picks-up-sso-credentials
   (amazonica-aws-sso/with-sso-credential
     (is (some? (check-sts-get-caller-identity)))))
+
+;; ensure test credentials can list buckets, as we need this for testing merging of credentials on a per-request basis later
+(deftest test-credentials-can-list-buckets
+  (amazonica-aws-sso/with-sso-credential
+    (is (sequential? (s3/list-buckets)))))
+
+(deftest does-not-fail-with-per-request-credentials-using-with-sso-credential
+  (amazonica-aws-sso/with-sso-credential
+    ;; amazonica.core/with-credential overrides even the per-function-call credentials
+    (is (sequential? (s3/list-buckets {:access-key ""
+                                       :secret-key ""
+                                       :cred nil})))))
+
+(deftest does-not-fail-with-per-request-credentials-after-init!
+  (amazonica-aws-sso/init!)
+  (is (thrown? com.amazonaws.services.s3.model.AmazonS3Exception
+               (s3/list-buckets {:access-key ""
+                                 :secret-key ""
+                                 :cred nil}))))
 
 (deftest init!-globally-adds-sso-credential-support
   (amazonica-aws-sso/init!)
