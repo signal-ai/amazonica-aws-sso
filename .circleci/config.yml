@@ -1,0 +1,57 @@
+version: 2.1
+
+jobs:
+  build:
+    parameters:
+      publish:
+        description: Whether to publish
+        type: boolean
+        default: True
+    docker:
+      - image: cimg/clojure:1.11.1
+        auth:
+          # from org-global context
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASS
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: v1-deps-lein-{{ checksum "project.clj" }}
+
+      - run:
+          name: Install lein dependencies
+          command: lein deps
+
+      - save_cache:
+          paths:
+              - ~/.m2
+          key: v1-deps-lein-{{ checksum "project.clj" }}
+
+      - run: lein uberjar
+
+      - when:
+          condition: << parameters.publish >>
+          steps:
+            - run: lein deploy
+
+workflows:
+  release:
+    jobs:
+      - build:
+          name: build_only
+          publish: False
+          filters:
+            branches:
+              ignore:
+                - main
+          context: org-global
+
+      - build:
+          name: build_and_publish
+          publish: True
+          filters:
+            branches:
+              only:
+                - main
+          context: org-global
